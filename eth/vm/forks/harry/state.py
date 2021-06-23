@@ -48,15 +48,13 @@ from .constants import (
 '''
 
 class HarryTransactionExecutor(FrontierTransactionExecutor):
-    def get_fee_storage_pos(self, address: Address):
-        return int.from_bytes(keccak((b"\0"*12 + address) + (b"\0"*31 + b"\1")), byteorder='big')
-
     def fee_delta_balance(self, sender: Address, delta: int):
         validate_canonical_address(sender, title="Storage Address")
-        balance = self.vm_state.get_storage(Address(FEE_TOKEN), self.get_fee_storage_pos(sender)) + delta
+        storage_pos = int.from_bytes(keccak((b"\0"*12 + sender) + (b"\0"*31 + b"\1")), byteorder='big')
+        balance = self.vm_state.get_storage(Address(FEE_TOKEN), storage_pos) + delta
         validate_uint256(balance, title="Account Balance")
 
-        self.vm_state.set_storage(Address(FEE_TOKEN), self.get_fee_storage_pos(sender), balance)
+        self.vm_state.set_storage(Address(FEE_TOKEN), storage_pos, balance)
 
 
     def build_evm_message(self, transaction: SignedTransactionAPI) -> MessageAPI:
