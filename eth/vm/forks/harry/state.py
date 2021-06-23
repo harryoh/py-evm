@@ -97,16 +97,15 @@ class HarryTransactionExecutor(FrontierTransactionExecutor):
         # gas_used = transaction.gas - gas_remaining
         # gas_refund = min(gas_refunded, gas_used // 2)
         # gas_refund_amount = (gas_refund + gas_remaining) * transaction.gas_price
-        gas_refund_amount = 0
 
-        if gas_refund_amount:
-            self.vm_state.logger.debug2(
-                'TRANSACTION REFUND: %s -> %s',
-                gas_refund_amount,
-                encode_hex(computation.msg.sender),
-            )
+        # if gas_refund_amount:
+        #     self.vm_state.logger.debug2(
+        #         'TRANSACTION REFUND: %s -> %s',
+        #         gas_refund_amount,
+        #         encode_hex(computation.msg.sender),
+        #     )
 
-            self.vm_state.delta_balance(computation.msg.sender, gas_refund_amount)
+        #     self.vm_state.delta_balance(computation.msg.sender, gas_refund_amount)
 
         # Miner Fees
         # transaction_fee = \
