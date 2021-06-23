@@ -41,8 +41,8 @@ class HarryTransactionExecutor(FrontierTransactionExecutor):
         self.vm_state.increment_nonce(transaction.sender)
 
         # Setup VM Message
-        # message_gas = transaction.gas - transaction.intrinsic_gas
-        message_gas = 0
+        message_gas = transaction.gas - transaction.intrinsic_gas
+        # message_gas = 0
 
         if transaction.to == CREATE_CONTRACT_ADDRESS:
             contract_address = generate_contract_address(
